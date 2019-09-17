@@ -7,13 +7,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// vars to store provided filenames
-var (
-	image1 string
-	image2 string
-	output string
-)
-
 var RootCmd = &cobra.Command{
 	Use:   "tablebooker <command>",
 	Short: "Table Booker service",
