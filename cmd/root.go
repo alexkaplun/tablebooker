@@ -11,10 +11,6 @@ var RootCmd = &cobra.Command{
 	Use:   "tablebooker <command>",
 	Short: "Table Booker service",
 	Long:  "Table Booker service",
-	Run: func(cmd *cobra.Command, args []string) {
-		log.Println("Table booker started")
-
-	},
 }
 
 // Execute adds all child commands to the root command sets flags appropriately.
@@ -24,4 +20,9 @@ func Execute() {
 		log.Println(err)
 		os.Exit(-1)
 	}
+}
+
+func init() {
+	RootCmd.AddCommand(initCmd)
+	RootCmd.AddCommand(serverCmd)
 }
