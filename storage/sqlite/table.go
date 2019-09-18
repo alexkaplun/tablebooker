@@ -8,7 +8,7 @@ import (
 	"github.com/alexkaplun/tablebooker/model"
 )
 
-func (s *Storage) GetAvailableTables() ([]*model.Table, error) {
+func (s *Storage) GetTablesList() ([]*model.Table, error) {
 	rows, err := s.db.Query(sqlSelectAllTables)
 	if err != nil {
 		return nil, err
@@ -71,4 +71,22 @@ func (s *Storage) BookTableById(tableId string, bookDate time.Time, guestName st
 		GuestContact: guestContact,
 		Code:         code,
 	}, nil
+}
+
+func (s *Storage) UnbookTableByCode(code string) (bool, error) {
+	res, err := s.db.Exec(sqlDeleteBook, code)
+	if err != nil {
+		return false, err
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		return false, err
+	}
+
+	// return false if no rows were deleted
+	if rowsAffected == 0 {
+		return false, nil
+	}
+	return true, nil
 }

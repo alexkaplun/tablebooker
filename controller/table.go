@@ -7,8 +7,8 @@ import (
 	"github.com/alexkaplun/tablebooker/model"
 )
 
-func (c *Controller) GetAvailableTables() ([]*model.Table, error) {
-	tables, err := c.storage.GetAvailableTables()
+func (c *Controller) GetTablesList() ([]*model.Table, error) {
+	tables, err := c.storage.GetTablesList()
 	if err != nil {
 		log.Println("error getting tables from storage", err)
 		return nil, err
@@ -54,4 +54,14 @@ func (c *Controller) BookTableById(id string, book model.TableBook) (*model.Tabl
 	}
 
 	return bookResult, nil
+}
+
+func (c *Controller) UnbookTableByCode(code string) (bool, error) {
+	unbooked, err := c.storage.UnbookTableByCode(code)
+	if err != nil {
+		log.Println("error unbooking the table")
+		return false, err
+	}
+
+	return unbooked, nil
 }

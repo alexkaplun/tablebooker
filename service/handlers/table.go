@@ -47,7 +47,7 @@ func BookTableByIdHandler(c *controller.Controller) http.HandlerFunc {
 			return
 		}
 
-		// validate the bookdate format
+		// validate the bookDate format
 		bookDate, err := time.Parse("2006-01-02", tableBook.BookDate)
 		if err != nil {
 			http.Error(w, "bad bookDate format", http.StatusBadRequest)
@@ -88,13 +88,34 @@ func BookTableByIdHandler(c *controller.Controller) http.HandlerFunc {
 
 func UnbookTableHandler(c *controller.Controller) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		code := chi.URLParam(r, "code")
+		// validate code
+		if code == "" {
+			http.Error(w, "empty code", http.StatusBadRequest)
+			return
+		}
 
+		// attempt to unbook the table by code
+		res, err := c.UnbookTableByCode(code)
+		if err != nil {
+			http.Error(w, "error unbooking table", http.StatusInternalServerError)
+			return
+		}
+
+		// if res == false no book were found
+		if !res {
+			http.Error(w, "no booking with code found", http.StatusNotFound)
+			return
+		}
+
+		// returh 200 OK
+		common.NewResponse("OK").WriteResponse(w)
 	}
 }
 
 func ListTableHandler(c *controller.Controller) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		tables, err := c.GetAvailableTables()
+		tables, err := c.GetTablesList()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

@@ -37,3 +37,8 @@ var sqlCreateBook = `
 	INSERT INTO table_book (id, table_id, book_date, guest_name, guest_contact, code)
 	VALUES (?, ?, ?, ?, ?, ?)
 `
+
+var sqlDeleteBook = `
+	DELETE FROM table_book
+    WHERE code = ?
+`

@@ -10,6 +10,7 @@ type Head struct {
 	Timestamp time.Time `json:"timestamp"`
 }
 
+// such response structure not necessary here, but might be needed for future extension
 type Response struct {
 	Head *Head       `json:"head"`
 	Body interface{} `json:"body"`

@@ -20,7 +20,7 @@ func Routes(c *controller.Controller) http.Handler {
 	r.Use(middleware.Timeout(30 * time.Second))
 	r.Route("/table", func(r chi.Router) {
 		r.Post("/book/{table_id}", BookTableByIdHandler(c))
-		r.Post("/unbook", UnbookTableHandler(c))
+		r.Delete("/unbook/{code}", UnbookTableHandler(c))
 		r.Get("/list", ListTableHandler(c))
 	})
 
