@@ -203,19 +203,19 @@ func TestUnbookTableHandler(t *testing.T) {
 	// prepare routes
 	r := chi.NewRouter()
 	r.Route("/table", func(r chi.Router) {
-		r.Delete("/unbook/{code}", UnbookTableHandler(c))
+		r.Delete("/book/{code}", UnbookTableHandler(c))
 	})
 
 	// delete non-existing booking
 	t.Run("non-existing booking", func(t *testing.T) {
-		makeReq := httptest.NewRequest(http.MethodDelete, "/table/unbook/iamdummybookingcode", nil)
+		makeReq := httptest.NewRequest(http.MethodDelete, "/table/book/iamdummybookingcode", nil)
 		out := httptest.NewRecorder()
 		r.ServeHTTP(out, makeReq)
 		assert.Equal(t, http.StatusNotFound, out.Code)
 	})
 
 	t.Run("valid booking code", func(t *testing.T) {
-		makeReq := httptest.NewRequest(http.MethodDelete, "/table/unbook/"+newBook.Code, nil)
+		makeReq := httptest.NewRequest(http.MethodDelete, "/table/book/"+newBook.Code, nil)
 		out := httptest.NewRecorder()
 		r.ServeHTTP(out, makeReq)
 		// expect 200 OK
