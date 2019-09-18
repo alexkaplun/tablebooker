@@ -102,7 +102,7 @@ func UnbookTableHandler(c *controller.Controller) http.HandlerFunc {
 			return
 		}
 
-		// if res == false no book were found
+		// if res == false no booking were found
 		if !res {
 			http.Error(w, "no booking with code found", http.StatusNotFound)
 			return

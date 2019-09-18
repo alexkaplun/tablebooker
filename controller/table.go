@@ -7,6 +7,7 @@ import (
 	"github.com/alexkaplun/tablebooker/model"
 )
 
+// return list of tables in database
 func (c *Controller) GetTablesList() ([]*model.Table, error) {
 	tables, err := c.storage.GetTablesList()
 	if err != nil {
@@ -16,6 +17,8 @@ func (c *Controller) GetTablesList() ([]*model.Table, error) {
 	return tables, nil
 }
 
+// attempts to book the table by its id
+// will return pointer to model.TableBook object,containing all info about booking
 func (c *Controller) BookTableById(id string, book model.TableBook) (*model.TableBook, error) {
 	bookDate, err := time.Parse("2006-01-02", book.BookDate)
 	if err != nil {
@@ -56,6 +59,9 @@ func (c *Controller) BookTableById(id string, book model.TableBook) (*model.Tabl
 	return bookResult, nil
 }
 
+// attempts to unbook the table
+// returns false if booking was not found
+// returns true if onbook was successful
 func (c *Controller) UnbookTableByCode(code string) (bool, error) {
 	unbooked, err := c.storage.UnbookTableByCode(code)
 	if err != nil {

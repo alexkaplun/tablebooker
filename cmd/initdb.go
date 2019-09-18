@@ -30,7 +30,7 @@ var initCmd = &cobra.Command{
 		if err := c.InitDB(); err != nil {
 			log.Println("error executing database init", err)
 		} else {
-			log.Println("initialize database successfull")
+			log.Println("initialize database successful")
 		}
 	},
 }
